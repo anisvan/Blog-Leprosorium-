@@ -11,22 +11,24 @@ end
 
 before do
 	init_db
+
 end
 
 configure do
 	init_db
 	@db.execute 'CREATE TABLE IF NOT EXISTS "Posts" 
 	("id" INTEGER PRIMARY KEY AUTOINCREMENT, 
-	"created_date" DATE, "content" TEXT)'
+	"created_date" DATE, "content" TEXT, "nickname" TEXT)'
 
 	@db.execute 'CREATE TABLE IF NOT EXISTS "Comments" 
 	("id" INTEGER PRIMARY KEY AUTOINCREMENT, 
-	"created_date" DATE, "content" TEXT, post_id INTEGER)'
+	"created_date" DATE, "content" TEXT, post_id INTEGER, "nickname" TEXT)'
 
 end
 
 get '/' do
 	@results = @db.execute 'select * from Posts order by id desc'
+	
 	erb :index	
 end
 
@@ -36,12 +38,18 @@ end
 
 post '/newpost' do
   content = params[:content]
+  nickname = params[:nickname]
   if content.length <=0 
   	@error = 'Введите текст поста'
   	return erb :new
   end
 
-  @db.execute 'insert into Posts (content,created_date) values (?, datetime())', [content]
+   if nickname.length <=0 
+  	@error = 'Введите никнейм'
+  	return erb :new
+  end
+
+  @db.execute 'insert into Posts (content,created_date,nickname) values (?, datetime(), ?)', [content,nickname]
 
   redirect to '/'
 end
@@ -59,12 +67,18 @@ end
 post '/details/:post_id' do
 	post_id = params[:post_id]
   	content = params[:comment]
+  	nickname = params[:nickname]
   		if content.length <=0 
   			@error = 'Введите текст комментария'
   			return erb :details
  		end
 
-  @db.execute 'insert into Comments (content,created_date,post_id) values (?, datetime(), ?)', [content,post_id]
+ 		if nickname.length <=0 
+  			@error = 'Введите никнейм'
+  			return erb :details
+ 		end
+
+  @db.execute 'insert into Comments (content,created_date,post_id,nickname) values (?, datetime(), ?, ?)', [content,post_id,nickname]
 
   redirect to('/details/' + post_id)
 end

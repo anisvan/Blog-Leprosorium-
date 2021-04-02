@@ -1,8 +1,9 @@
-<h4>Детали поста</h4>
-<p>	<%= @row['content'] %>
+<h2>Пост:</h2>
+<h4><p>	<%= @row['content'] %></h4>
 	<br>
 	<br>
-	<i>Добавлено в <%= @row['created_date'] %></i>
+	<i>Добавлено в <%= @row['created_date'] %></i><br>
+	<i>Автор: <%= @row['nickname'] %></i>
 	<br>
 	<br>
 </p>
@@ -16,6 +17,9 @@
 	<br>
 	<span style="font-size: 75%; color: #999"><i>Добавлено в <%= comment['created_date'] %></i>
 	<br>
+	<i>Автор: <%= comment['nickname'] %></i></span>
+	<br>
+
 
 
 	<hr>
@@ -25,6 +29,8 @@
 <p>
 	<form action="/details/<%= @row['id'] %>" method="post" role="form">
 	  <textarea name="comment" class="form-control" rows="6" placeholder="Введите текст коментария..."></textarea>
+	  <br>
+	  <input name="nickname" type="text" class="form-control" placeholder="Введите ваш никнейм">
 	  <br>
 	  <button type="submit" class="btn btn-primary">Добавить комментарий</button>
 	</form>

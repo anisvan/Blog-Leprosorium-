@@ -1,12 +1,14 @@
 <h2>Последние посты: </h2>
 <br>
 <% @results.each do |post| %>
-	<%= post['content'] %>
+	<b><%= post['content'] %></b>
 	<br>
 	<br>
 	<i>Добавлено в <%= post['created_date'] %></i>
 	<br>
-	<a href="/details/<%= post['id'] %>">Комментарии</a>
+	<i>Автор: <%= post['nickname'] %></i>
+	<br>
+	<a href="/details/<%= post['id'] %>">Комментарии (<%= @post_idi%>)</a>
 
 	<hr>
 <% end %>	
