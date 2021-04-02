@@ -1,0 +1,12 @@
+<h2>Последние посты: </h2>
+<br>
+<% @results.each do |post| %>
+	<%= post['content'] %>
+	<br>
+	<br>
+	<i>Добавлено в <%= post['created_date'] %></i>
+	<br>
+	<a href="/details/<%= post['id'] %>">Комментарии</a>
+
+	<hr>
+<% end %>	
